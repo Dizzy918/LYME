@@ -401,6 +401,11 @@ canvas.addEventListener('click', e => {
 
 
 function redrawCanvas() {
+  const cr = canvas.getBoundingClientRect();
+  if (canvas.width !== cr.width || canvas.height !== cr.height) {
+    canvas.width = cr.width;
+    canvas.height = cr.height;
+  }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   if (pendingPts.length === 0) return;
   const vr = getVideoRect();

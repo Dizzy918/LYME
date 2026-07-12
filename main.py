@@ -382,7 +382,7 @@ def _draw_hud(frame, guard_state: GuardState,
               dwell_progress: float, alert_active: bool) -> None:
     h, w = frame.shape[:2]
     draw_zones(frame, alert_active=alert_active)
-    _draw_ai_confidence_hud(frame)
+    # _draw_ai_confidence_hud(frame)
 
     if alert_active:
         if int((time.monotonic() - _flash_until) / _FLASH_DURATION) % 2 == 0:
