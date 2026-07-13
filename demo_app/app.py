@@ -48,6 +48,8 @@ def index():
 if __name__ == "__main__":
     detector.start()
     try:
-        app.run(host="0.0.0.0", port=4000, debug=True, use_reloader=False)
+        # debug=False: the Werkzeug debugger allows code execution and this
+        # binds to all interfaces
+        app.run(host="0.0.0.0", port=4000, debug=False, use_reloader=False)
     finally:
         detector.stop()

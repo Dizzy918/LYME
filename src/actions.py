@@ -84,8 +84,6 @@ def query_frame(frame, question, crop_pts=None):
     return output_text[0]
 
 
-query_mountain = query_frame
-
 def log_incident(message):
     if not os.path.exists("data"):
         os.makedirs("data")

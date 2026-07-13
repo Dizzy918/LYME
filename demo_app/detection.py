@@ -97,6 +97,7 @@ class Detector:
                 self._running = False
                 return
 
+            last_ts = 0
             while self._running and cap.isOpened():
                 success, frame = cap.read()
                 if not success:
@@ -104,8 +105,13 @@ class Detector:
 
                 frame = cv2.flip(frame, 1)
 
-                mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
-                landmarker.detect_async(mp_image, int(time.time() * 1000))
+                # MediaPipe expects RGB; OpenCV frames are BGR
+                rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
+                # timestamps must be strictly increasing for LIVE_STREAM mode
+                ts = max(int(time.monotonic() * 1000), last_ts + 1)
+                last_ts = ts
+                landmarker.detect_async(mp_image, ts)
 
                 ret, jpeg = cv2.imencode(".jpg", frame, [cv2.IMWRITE_JPEG_QUALITY, 75])
                 if ret:
